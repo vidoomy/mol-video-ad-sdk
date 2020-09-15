@@ -16,7 +16,6 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
     "demo": "cross-env NODE_ENV=production webpack --mode=production",
-    "commitmsg": "commitlint -e $GIT_PARAMS",
     "dev": "rollup -c",
     "docs": "jsdoc -c jsdoc.json",
     "pages": "yarn build && rimraf pages && yarn demo && yarn docs",

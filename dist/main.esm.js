@@ -7874,6 +7874,7 @@ var getOptions = function getOptions(vastChain, options) {
 var requestAd = function () {
   var _ref5 = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee2(adTag, options) {
     var vastChain = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+    var rawXml = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
     var VASTAdResponse, opts, epoch, timeout, fetchPromise;
     return regenerator.wrap(function _callee2$(_context2) {
       while (1) {
@@ -7884,7 +7885,7 @@ var requestAd = function () {
               errorCode: null,
               parsedXML: null,
               requestTag: adTag,
-              XML: null
+              XML: rawXml
             };
             opts = void 0;
             epoch = void 0;
@@ -7893,6 +7894,11 @@ var requestAd = function () {
 
             opts = getOptions(vastChain, options);
             validateChain(vastChain, opts);
+
+            if (VASTAdResponse.XML) {
+              _context2.next = 13;
+              break;
+            }
 
             fetchPromise = fetchAdXML(adTag, opts);
 
@@ -7910,19 +7916,20 @@ var requestAd = function () {
               })]);
             }
 
-            _context2.next = 11;
+            _context2.next = 12;
             return fetchPromise;
 
-          case 11:
+          case 12:
             VASTAdResponse.XML = _context2.sent;
 
+          case 13:
             VASTAdResponse.parsedXML = parseVastXml(VASTAdResponse.XML);
             VASTAdResponse.ad = getAd(VASTAdResponse.parsedXML);
 
             validateResponse(VASTAdResponse, opts);
 
             if (!isWrapper(VASTAdResponse.ad)) {
-              _context2.next = 18;
+              _context2.next = 19;
               break;
             }
 
@@ -7934,11 +7941,11 @@ var requestAd = function () {
               timeout: timeout
             }), [VASTAdResponse].concat(toConsumableArray(vastChain))));
 
-          case 18:
+          case 19:
             return _context2.abrupt('return', [VASTAdResponse].concat(toConsumableArray(vastChain)));
 
-          case 21:
-            _context2.prev = 21;
+          case 22:
+            _context2.prev = 22;
             _context2.t0 = _context2['catch'](4);
 
             /* istanbul ignore if */
@@ -7951,12 +7958,12 @@ var requestAd = function () {
 
             return _context2.abrupt('return', [VASTAdResponse].concat(toConsumableArray(vastChain)));
 
-          case 27:
+          case 28:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, _this$7, [[4, 21]]);
+    }, _callee2, _this$7, [[4, 22]]);
   }));
 
   return function requestAd(_x3, _x4) {
@@ -8282,7 +8289,7 @@ var waterfall = function () {
  * @param {Function} [options.hooks.transformVastResponse] - If provided it will be called with the current {@link VastChain} before building the adUnit allowing the modification of the vastResponse if needed.
  * @returns {Function} - Cancel function. If called it will cancel the ad run. {@link runWaterfall~onRunFinish} will still be called;
  */
-var runWaterfall = function runWaterfall(adTag, placeholder, options) {
+var runWaterfall = function runWaterfall(adTag, placeholder, options, rawXml) {
   var canceled = false;
   var adUnit = null;
   var isCanceled = function isCanceled() {
@@ -8312,7 +8319,7 @@ var runWaterfall = function runWaterfall(adTag, placeholder, options) {
   }
 
   waterfall(function () {
-    return requestAd(adTag, opts);
+    return requestAd(adTag, opts, [], rawXml);
   }, placeholder, opts, isCanceled);
 
   return function () {

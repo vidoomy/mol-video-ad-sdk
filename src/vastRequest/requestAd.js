@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {parseXml} from '../xml';
 import {
   getWrapperOptions,
@@ -112,13 +113,13 @@ const getOptions = (vastChain, options) => {
  * @returns {Promise.<VastChain>} - Returns a Promise that will resolve with a VastChain with the newest VAST response at the beginning of the array.
  * If the {@link VastChain} had an error. The first VAST response of the array will contain an error and an errorCode entry.
  */
-const requestAd = async (adTag, options, vastChain = []) => {
+const requestAd = async (adTag, options, vastChain = [], rawXml = null) => {
   const VASTAdResponse = {
     ad: null,
     errorCode: null,
     parsedXML: null,
     requestTag: adTag,
-    XML: null
+    XML: rawXml
   };
   let opts;
   let epoch;
@@ -128,25 +129,27 @@ const requestAd = async (adTag, options, vastChain = []) => {
     opts = getOptions(vastChain, options);
     validateChain(vastChain, opts);
 
-    let fetchPromise = fetchAdXML(adTag, opts);
+    if (!VASTAdResponse.XML) {
+      let fetchPromise = fetchAdXML(adTag, opts);
 
-    if (typeof opts.timeout === 'number') {
-      timeout = opts.timeout;
-      epoch = Date.now();
-      fetchPromise = Promise.race([
-        fetchPromise,
-        new Promise((resolve, reject) => {
-          setTimeout(() => {
-            const error = new Error('RequestAd timeout');
+      if (typeof opts.timeout === 'number') {
+        timeout = opts.timeout;
+        epoch = Date.now();
+        fetchPromise = Promise.race([
+          fetchPromise,
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              const error = new Error('RequestAd timeout');
 
-            error.code = 301;
-            reject(error);
-          }, timeout);
-        })
-      ]);
+              error.code = 301;
+              reject(error);
+            }, timeout);
+          })
+        ]);
+      }
+
+      VASTAdResponse.XML = await fetchPromise;
     }
-
-    VASTAdResponse.XML = await fetchPromise;
     VASTAdResponse.parsedXML = parseVastXml(VASTAdResponse.XML);
     VASTAdResponse.ad = getAd(VASTAdResponse.parsedXML);
 

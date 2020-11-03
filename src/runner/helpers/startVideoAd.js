@@ -44,7 +44,8 @@ const startAdUnit = (adUnit, {onAdReady}) => new Promise((resolve, reject) => {
   adUnit.on(adStopped, createRejectHandler(adStopped));
 
   onAdReady(adUnit);
-  adUnit.start();
+  // eslint-disable-next-line lines-around-comment
+  // adUnit.start();
 });
 
 const tryToStartVpaidAd = (vastChain, videoAdContainer, options) => {

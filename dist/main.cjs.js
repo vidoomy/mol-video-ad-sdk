@@ -6349,7 +6349,6 @@ var VastAdUnit = function (_VideoAdUnit) {
                 return drawIcons();
 
               case 11:
-
                 videoElement.src = media.src;
                 this.assetUri = media.src;
                 videoElement.play();
@@ -7476,7 +7475,7 @@ var startAdUnit = function startAdUnit(adUnit, _ref) {
     adUnit.on(adStopped, createRejectHandler(adStopped));
 
     onAdReady(adUnit);
-    adUnit.start();
+    // adUnit.start();
   });
 };
 

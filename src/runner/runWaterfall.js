@@ -162,13 +162,14 @@ const waterfall = async (fetchVastChain, placeholder, options, isCanceled) => {
  * @param {Function} [options.hooks.transformVastResponse] - If provided it will be called with the current {@link VastChain} before building the adUnit allowing the modification of the vastResponse if needed.
  * @returns {Function} - Cancel function. If called it will cancel the ad run. {@link runWaterfall~onRunFinish} will still be called;
  */
-const runWaterfall = (adTag, placeholder, options, rawXml) => {
+const runWaterfall = (adTag, placeholder, options, rawXml, key) => {
   let canceled = false;
   let adUnit = null;
   const isCanceled = () => canceled;
   const onAdStartHandler = callbackHandler(options.onAdStart);
   const onAdStart = (newAdUnit) => {
     adUnit = newAdUnit;
+    adUnit.key = key;
     onAdStartHandler(adUnit);
   };
 

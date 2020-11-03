@@ -5800,7 +5800,10 @@ var VideoAdUnit = function (_Emitter) {
    */
 
 
-  /** If an error occurs it will contain the reference to the error otherwise it will be bull */
+  /** If an error occurs it will contain the Vast Error code of the error */
+
+
+  /** Ad unit type */
   function VideoAdUnit(vastChain, videoAdContainer) {
     var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
         _ref$viewability = _ref.viewability,
@@ -5842,6 +5845,7 @@ var VideoAdUnit = function (_Emitter) {
     _this.type = null;
     _this.error = null;
     _this.errorCode = null;
+    _this.key = '';
     var onFinishCallbacks = _this[_protected].onFinishCallbacks;
 
     /** Reference to the {@link VastChain} used to load the ad. */
@@ -5942,10 +5946,7 @@ var VideoAdUnit = function (_Emitter) {
    */
 
 
-  /** If an error occurs it will contain the Vast Error code of the error */
-
-
-  /** Ad unit type */
+  /** If an error occurs it will contain the reference to the error otherwise it will be bull */
 
 
   createClass(VideoAdUnit, [{
@@ -6345,6 +6346,7 @@ var VastAdUnit = function (_VideoAdUnit) {
                 return drawIcons();
 
               case 11:
+
                 videoElement.src = media.src;
                 this.assetUri = media.src;
                 videoElement.play();
@@ -7471,6 +7473,7 @@ var startAdUnit = function startAdUnit(adUnit, _ref) {
     adUnit.on(adStopped, createRejectHandler(adStopped));
 
     onAdReady(adUnit);
+    // eslint-disable-next-line lines-around-comment
     // adUnit.start();
   });
 };
@@ -7582,15 +7585,13 @@ var run = function () {
               timeoutId = void 0;
               timeoutPromise = new Promise(function (resolve, reject) {
                 timeoutId = setTimeout(function () {
-                  var tracker = options.tracker;
-
-
-                  trackError(vastChain, {
+                  /*const {tracker} = options;
+                   trackError(vastChain, {
                     errorCode: 402,
-                    tracker: tracker
+                    tracker
                   });
                   timedOut = true;
-                  reject(new Error('Timeout while starting the ad'));
+                  reject(new Error('Timeout while starting the ad'));*/
                 }, options.timeout);
               });
 
@@ -8288,7 +8289,7 @@ var waterfall = function () {
  * @param {Function} [options.hooks.transformVastResponse] - If provided it will be called with the current {@link VastChain} before building the adUnit allowing the modification of the vastResponse if needed.
  * @returns {Function} - Cancel function. If called it will cancel the ad run. {@link runWaterfall~onRunFinish} will still be called;
  */
-var runWaterfall = function runWaterfall(adTag, placeholder, options, rawXml) {
+var runWaterfall = function runWaterfall(adTag, placeholder, options, rawXml, key) {
   var canceled = false;
   var adUnit = null;
   var isCanceled = function isCanceled() {
@@ -8297,6 +8298,7 @@ var runWaterfall = function runWaterfall(adTag, placeholder, options, rawXml) {
   var onAdStartHandler = callbackHandler(options.onAdStart);
   var onAdStart = function onAdStart(newAdUnit) {
     adUnit = newAdUnit;
+    adUnit.key = key;
     onAdStartHandler(adUnit);
   };
 

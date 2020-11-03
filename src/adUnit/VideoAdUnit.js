@@ -64,6 +64,8 @@ class VideoAdUnit extends Emitter {
   /** If an error occurs it will contain the Vast Error code of the error */
   errorCode = null;
 
+  key = '';
+
   /**
    * Creates a {@link VideoAdUnit}.
    *

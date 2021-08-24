@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -7589,13 +7589,15 @@ var run = function () {
               timeoutId = void 0;
               timeoutPromise = new Promise(function (resolve, reject) {
                 timeoutId = setTimeout(function () {
-                  /*const {tracker} = options;
-                   trackError(vastChain, {
+                  var tracker = options.tracker;
+
+
+                  trackError(vastChain, {
                     errorCode: 402,
-                    tracker
+                    tracker: tracker
                   });
                   timedOut = true;
-                  reject(new Error('Timeout while starting the ad'));*/
+                  reject(new Error('Timeout while starting the ad'));
                 }, options.timeout);
               });
 

@@ -1,6 +1,6 @@
 {
-  "name": "@mailonline/video-ad-sdk",
-  "version": "0.0.0-development",
+  "name": "@vidoomy/video-ad-sdk",
+  "version": "0.0.1",
   "description": "Video ad SDK to load and play video ads",
   "keywords": [
     "vast",
@@ -13,6 +13,7 @@
   "module": "dist/main.esm.js",
   "browser": "dist/main.umd.js",
   "license": "MIT",
+  "private": false,
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
     "demo": "cross-env NODE_ENV=production webpack --mode=production",

@@ -1971,17 +1971,21 @@ var getAdErrorURI = function getAdErrorURI(ad) {
  *
  * @function
  * @param {ParsedAd} ad - VAST ad object.
- * @returns {?string} - Vast ad Impression URI or `null` otherwise.
+ * @returns {?{uri: string}[]} - Vast ad Impression URI array or `null` otherwise.
  * @static
  */
 var getImpressionUri = function getImpressionUri(ad) {
   var adTypeElement = ad && getFirstChild(ad);
 
   if (adTypeElement) {
-    var impression = get(adTypeElement, 'Impression');
+    var impression = getAll(adTypeElement, 'Impression');
 
-    if (impression) {
-      return getText(impression);
+    if (impression && impression.length) {
+      return impression.map(function (el) {
+        return {
+          uri: getText(el)
+        };
+      });
     }
   }
 

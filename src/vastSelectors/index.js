@@ -255,17 +255,19 @@ export const getAdErrorURI = (ad) => {
  *
  * @function
  * @param {ParsedAd} ad - VAST ad object.
- * @returns {?string} - Vast ad Impression URI or `null` otherwise.
+ * @returns {?{uri: string}[]} - Vast ad Impression URI array or `null` otherwise.
  * @static
  */
 export const getImpressionUri = (ad) => {
   const adTypeElement = ad && getFirstChild(ad);
 
   if (adTypeElement) {
-    const impression = get(adTypeElement, 'Impression');
+    const impression = getAll(adTypeElement, 'Impression');
 
-    if (impression) {
-      return getText(impression);
+    if (impression && impression.length) {
+      return impression.map((el) => ({
+        uri: getText(el)
+      }));
     }
   }
 

@@ -60,7 +60,10 @@ const config = [
       file: pkg.module,
       format: 'es'
     },
-    plugins
+    plugins: [
+      ...plugins,
+      production && terser()
+    ]
   },
   {
     input: 'src/index.js',

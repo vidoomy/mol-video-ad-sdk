@@ -1,5 +1,5 @@
 {
-  "name": "@vidoomy/video-ad-sdk",
+  "name": "mol-video-ad-sdk",
   "version": "0.0.1",
   "description": "Video ad SDK to load and play video ads",
   "keywords": [
@@ -17,7 +17,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
     "demo": "cross-env NODE_ENV=production webpack --mode=production",
-    "dev": "rollup -c",
+    "dev": "rollup -w -c",
     "docs": "jsdoc -c jsdoc.json",
     "pages": "yarn build && rimraf pages && yarn demo && yarn docs",
     "lint": "eslint --ignore-path ./.gitignore './**/*.js'",

@@ -12,3 +12,4 @@ package-lock.json
 pages/
 .npmrc
 .yarnrc
+dist

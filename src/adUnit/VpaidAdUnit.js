@@ -348,7 +348,9 @@ class VpaidAdUnit extends VideoAdUnit {
             this.setVolume(videoElement.volume);
           }
 
-          await callAndWait(this.creativeAd, startAd, adStarted);
+          this.creativeAd[startAd]();
+
+          // await callAndWait(this.creativeAd, startAd, adStarted);
 
           if (this.icons) {
             const drawIcons = async () => {

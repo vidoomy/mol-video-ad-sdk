@@ -1,6 +1,6 @@
 {
   "name": "mol-video-ad-sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Video ad SDK to load and play video ads",
   "keywords": [
     "vast",

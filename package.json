@@ -1,6 +1,6 @@
 {
   "name": "mol-video-ad-sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Video ad SDK to load and play video ads",
   "keywords": [
     "vast",
@@ -22,6 +22,7 @@
     "pages": "yarn build && rimraf pages && yarn demo && yarn docs",
     "lint": "eslint --ignore-path ./.gitignore './**/*.js'",
     "prebuild": "rimraf dist",
+    "prepare": "npm run build",
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode development",
     "test": "cross-env NODE_ENV=test jest",
     "semantic-release": "semantic-release"

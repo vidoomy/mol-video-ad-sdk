@@ -28,7 +28,7 @@ class VideoAdContainer {
    * @param {HTMLVideoElement} [videoElement] - optional videoElement that will be used to play the ad.
    */
   constructor (placeholder, videoElement = null) {
-    if (!(placeholder instanceof Element)) {
+    if (!placeholder) {
       throw new TypeError('placeholder is not an Element');
     }
 
